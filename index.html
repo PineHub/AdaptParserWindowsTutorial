@@ -1,0 +1,116 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Adapt API tutorial for Windows</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header id="author">Clarence Pine</header>
+
+        <h1 id="title">Tutorial: Installing the Adapt API (or other Git-Python APIs) into Windows</h1>
+
+        <div id="overview"><h2>Overview:</h2>
+            <p id="overviewBody">The <a href="https://adapt.mycroft.ai/">Adapt API</a>, by Mycroft is a natural-language interpreter that allows
+            a machine to understand a human command from casual speech.  For example, "Please turn on the lights" instead of "Desktop, my computer,
+                c-drive, light folder, illuminate, execute."  It was developed by Sean Fitzgerald, who helped create Siri and Amazon's Echo.  The
+            Mycroft website offers a seamless install guide for Linux and Mac, but leaves us Windows users to fend for ourselves
+            (all 1.5 billion of us).  This tutorial will show the Redmond fans how to set up the parser on their local machine to return
+            an object showing all the information that could be used by a machine to do something useful, in our case we will get
+            it to play some music.</p>
+        </div>
+
+        <div id="virtualMachineSetup"><h2>Setting up the virtual machine.</h2>
+            <p id="virtualMachineBody">Virtual machines are used make sure all the crazy packages and
+            libraries you install don't mess with your natural python environment.  Install <a href="https://www.python.org/download/releases/2.7/">
+            Python 2.7</a> First, if you have not already done so.  <br>Congratulations, step one is complete.  Now open up command prompt, and go into the
+            scripts directory of your Python 2.7 location.  Type <span class="codeType">pip install virtualenv</span> then
+            install the virtual... eh you can read images:<img src="./img/pyCmdVirtWrappInst.JPG"/> <br><br> <br>Did that work?  Excellent.
+            Lets go into the Powershell.  Right click it and run it as an administrator.  <br><br>This will allow you to execute scripts from Python:
+            <br><br><img src="./img/virtualenWrapperRunAdmin.JPG"/> <br><br>  Now make a folder to put all your virtual environments
+            into.  Here I chose <span class="codeType">.virtualenvs</span>.  <br><br> <img src="./img/pyMakeDirVirtual.JPG"> <br><br>
+            Go ahead and try to <span class="codeType">Import-Module</span> like below: <br><br> <img src="./img/importModule.JPG"> <br><br>
+            Because of some nonsense with Windows not liking long file names, we need to rename the file <span class="codeType">
+            VirtualenWrapperTabExpansion.psm1</span> to <span class="codeType">VirtualenWrapperTabExpansi.psm1</span>  Next, you will open
+            VirtualEnvWrapper.psd1 stored in your powershell modules directory and change the NestedModules argument to match
+            that filename: <br><br> <img src="./img/renameExpansi.JPG"><br><br>  Also, change the <span class="codeType">
+            VirtualenWrapperTabExpansi.psm1</span> file's function to $function:TabExpansi to match the file name.
+            <br><br> <img src="./img/renameExpansi2.JPG"><br><br>  Try to import it again.  If all is right in the world, this
+            will happen:
+            <br><br> <img src="./img/importModuleSuccess.JPG"><br><br>
+            Which is nothing.
+            </p> <p>So at this point we're going to add Python scripts to our PATH variable.  We probably could of done this
+            much earlier in the tutorial, but this is when it became relevant for me, and in programming we all know its bad luck sometimes
+            to do stuff out of order.  So we go to Control Panel->System and Security->System->Advanced system settings->Environmental Variables.
+            Then choose "Path" and add your Python 2.7 scripts directory. <br><br> <img src="./img/addToPath.JPG"> <br><br>
+            Go back to your PowerShell and start a virtual environment.  This image just shows an example, but feel free to name your
+            environment something different than <span class="codeType">TestEnv</span>.  The environment name in parenthesis preceding
+            your PS prompt means that you're in it.  You can show all the environmental variables to choose from with the command
+            <span class="codeType">workon</span> and exit an environment with <span class="codeType">deactivate</span>.
+            <br><br> <img src="./img/mkvirtualenv.JPG"> <br><br><br> <img src="./img/workOnDeactivate.JPG"> <br><br>
+            So finally, you should now have everything you need to install open source Python APIs from Github like a real Linux machine.
+            Lets do it! <br><br> <img src="./img/installAdaptfromGit.JPG"> <br><br>
+
+            </p>
+
+            <div id="musicExample"><h2>Using the Adapt Parser</h2>
+                <p id="musicPyCharm">The example of the parser's use fom the Mycroft site gives a pretty basic example of its use
+                once its all setup in Linux or OSX  <span class="codeType">"play some music by the clash"</span>.  Which returns
+                a json object with all of your specified categories matched up and confidence level.  We however,
+                went through some gangsta "Adapting" to get up and running.  Of course our example needs to be way more cathartic.
+                You can just use whatever IDE or text editor, but here I'll use PyCharm.  So first chose your virtual environment instead of
+                the usual "Python 2.7" version when you start a project.  <br><br> <img src="./img/PyCharmselectvirtualEnv.JPG"> <br><br>
+                Now go into the example code generously provided by Sean Fitzgerald and put that code into your project py file.
+                Be sure to keep the original author's name and comment that you are building on top of his code.
+                <br><br> <img src="img/chooseExamples.JPG" height="600" width="365"/><br><br>  Now for the <span class="codeType">music_intent</span>
+                object, add to the intent builder a "Song" category.  <br><br> <img src="./img/addSongCategory.JPG"> <br><br>
+                Then we add our song of choice to the list.  I used "Tattoo."  Note that I later changed the name to the correct
+                spelling but I'm not going to change my screenshot.  Not for free anyway.  And since we're next to that code, also
+                register the song category.  <br><br> <img src="img/addTatoo.JPG" height="310" width="489"/>  <br><br> </p>
+                Almost done.  Because this is a computer, introduce it to the concept of <em>plurality</em>.  <br><br>
+
+                <img src="img/playSongSingular.JPG" height="133" width="251"/></div> <br><br>
+
+                Now we add the file path to our music.  <br><br><img
+                src="img/import_subprocess_then_add_pathToTattoo.JPG" height="232" width="1094"/> <br><br>
+                So the coding is done.  Just configure the debugger to input an argument, when you run your script. <br><br>
+                <img src="img/configureRunConfiguration.JPG" height="750" width="1068"/> <br><br> This is equivalent
+                to at the command prompt <span class="codeType">myProgramName.py "Please play a song about a Tattoo"</span> <br><br>
+                 <br><br>  Now just run your program.  <br><br> <img src="img/tatooPlaying.JPG" height="684" width="952"/><br><br><br>
+                There's our JSON and there's Ms. Sparks.
+                Now everyone sing-along, "<i>No matter what you say about love...</i>" <br><br><br><br>
+        </div>
+
+
+
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
